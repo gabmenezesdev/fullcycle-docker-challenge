@@ -1,0 +1,42 @@
+FROM golang:latest
+
+WORKDIR /go/src
+
+COPY /go.mod ./
+COPY /fullcycleChallenge.go ./
+
+ENTRYPOINT [ "go", "run", "fullcycleChallenge.go" ]
+
+# ===============================================
+
+# primeira evolução
+# FROM golang:1.21.0
+
+# WORKDIR /go/src
+
+# COPY /go.mod ./
+# COPY /fullcycleChallenge.go ./
+# RUN go mod download && go mod verify
+# RUN go build -v -o ./app/
+
+# ENTRYPOINT [ "./app/full_cycle_rocks" ]
+
+# ===============================================
+
+# Tentativa de otimizacao
+# FROM golang:1.21.0 AS gobuilder
+
+# WORKDIR /usr/src/app
+
+# COPY /go.mod ./
+# COPY /fullcycleChallenge.go ./
+# RUN go mod download && go mod verify
+# RUN go build -v -o /usr/local/bin/app ./
+
+# # CMD [ "app" ]
+
+# FROM golang:alpine3.18
+# WORKDIR /usr/local/bin/app
+# COPY --from=gobuilder /usr/local/bin/app .
+
+# CMD [ "./app" ]
